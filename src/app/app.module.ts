@@ -8,6 +8,9 @@ import { AppComponent } from './app.component';
 import { StudentListComponent } from './student-list/student-list.component';
 import { StudentComponent } from './student/student.component';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { AppStoreModule } from './app-store.module';
+import { EffectsModule } from '@ngrx/effects';
+import { LoadStudentsEffect } from './store/effects/load-students.effect';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,8 @@ import { StudentDetailComponent } from './student-detail/student-detail.componen
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    AppStoreModule,
+    EffectsModule.forRoot([LoadStudentsEffect]),
   ],
   providers: [],
   bootstrap: [AppComponent]

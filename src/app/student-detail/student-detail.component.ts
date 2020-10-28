@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { selectStudent } from '../store/selectors/students.selector';
 import { Student } from '../student';
-import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -14,16 +14,13 @@ export class StudentDetailComponent implements OnInit {
   errorMessage: string;
 
   constructor(private route: ActivatedRoute,
-              private studentService: StudentService) {
+    private store: Store) {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.pipe(
-      map(paramMap => Number(paramMap.get('id'))),
-      map(id => this.studentService.getStudent(id)),
-    ).subscribe(
-      studentObserver => studentObserver.subscribe(student => this.student = student),
-      error => this.errorMessage = error,
-    );
+    this.route.paramMap.subscribe( paramMap => {
+      const id = Number(paramMap.get('id'));
+      this.store.select(selectStudent, {id}).subscribe( student => this.student = student);
+    });
   }
 }

@@ -8,9 +8,11 @@ import { Student } from './student';
   providedIn: 'root',
 })
 export class StudentService {
+  [x: string]: any;
 
   constructor(private http: HttpClient) {
   }
+
 
   // get url: /assets/students.mock.json
   getStudents(): Observable<Student[]>  {

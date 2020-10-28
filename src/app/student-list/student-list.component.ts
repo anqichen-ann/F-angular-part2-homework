@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loadStudents } from '../store/actions/student.action';
+import { selectStudents } from '../store/selectors/students.selector';
 import { Student } from '../student';
-import { StudentService } from '../student.service';
 
 @Component({
   selector: 'app-student-list',
@@ -14,10 +16,16 @@ export class StudentListComponent implements OnInit {
   target: string;
 
   constructor(private router: Router,
-              private studentService: StudentService) { }
+              private store: Store) { }
 
   ngOnInit(): void {
-    this.studentService.getStudents().subscribe( students => this.students = students);
+    this.store.select(selectStudents).subscribe( students => this.students = students);
+
+    // this.studentService.getStudents().subscribe( students => this.students = students);
+  }
+
+  loadStudents():void {
+    this.store.dispatch(loadStudents());
   }
 
   goto(): void {
